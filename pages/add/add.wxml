@@ -1,0 +1,67 @@
+<view class="container">
+  <view class="type-switch card">
+    <view class="type-switch__tabs">
+      <view class="type-switch__tab {{ type === 'expense' ? 'type-switch__tab--active' : '' }}" data-type="expense" bindtap="onTypeChange">支出</view>
+      <view class="type-switch__tab {{ type === 'income' ? 'type-switch__tab--active' : '' }}" data-type="income" bindtap="onTypeChange">收入</view>
+    </view>
+  </view>
+
+  <view class="amount-section card">
+    <text class="amount-section__label">金额（元）</text>
+    <view class="amount-section__input-wrap">
+      <text class="amount-section__symbol">¥</text>
+      <input
+        class="amount-section__input"
+        type="digit"
+        placeholder="0.00"
+        placeholder-class="amount-section__placeholder"
+        value="{{ amountStr }}"
+        focus="{{ amountFocus }}"
+        bindinput="onAmountInput"
+      />
+    </view>
+  </view>
+
+  <view class="form card">
+    <category-picker
+      type="{{ type }}"
+      categoryId="{{ categoryId }}"
+      subCategoryId="{{ subCategoryId }}"
+      bind:change="onCategoryChange"
+    />
+
+    <view class="form-row">
+      <text class="form-row__label">日期</text>
+      <picker mode="date" value="{{ date }}" end="{{ maxDate }}" bindchange="onDateChange">
+        <view class="form-row__value">
+          <text>{{ dateDisplay }}</text>
+          <text class="form-row__arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row form-row--last">
+      <text class="form-row__label">备注</text>
+      <input
+        class="form-row__input"
+        placeholder="选填，如：公司楼下"
+        maxlength="50"
+        value="{{ remark }}"
+        bindinput="onRemarkInput"
+      />
+    </view>
+  </view>
+
+  <view class="actions">
+    <button
+      class="btn-primary"
+      bindtap="onSave"
+      disabled="{{ !canSave }}"
+      loading="{{ saving }}"
+    >
+      {{ isEdit ? '保存修改' : '保存' }}
+    </button>
+    <button class="btn-link" bindtap="goCategoryManage">分类管理</button>
+    <button wx:if="{{ isEdit }}" class="btn-delete" bindtap="onDelete">删除这笔</button>
+  </view>
+</view>

@@ -1,0 +1,59 @@
+<view class="container">
+  <!-- 今日概览 -->
+  <view class="hero card">
+    <text class="hero__label">{{ dateLabel }}</text>
+    <view class="hero__stats">
+      <view class="hero__stat">
+        <text class="hero__stat-label">收入</text>
+        <text class="hero__stat-amount hero__stat-amount--income">{{ todayIncomeDisplay }}</text>
+      </view>
+      <view class="hero__divider"></view>
+      <view class="hero__stat">
+        <text class="hero__stat-label">支出</text>
+        <text class="hero__stat-amount">{{ todayExpenseDisplay }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷记账按钮 -->
+  <button class="btn-add" bindtap="goAdd">
+    <text class="btn-add__icon">＋</text>
+    <text>记一笔</text>
+  </button>
+
+  <!-- 今日账单 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">今日账单</text>
+      <text wx:if="{{ todayList.length > 0 }}" class="section-link" bindtap="goList">查看全部 ›</text>
+    </view>
+
+    <view wx:if="{{ todayList.length === 0 }}" class="empty-inline">
+      <text class="text-secondary">今天还没有记账，点上方按钮开始吧</text>
+    </view>
+
+    <view wx:else class="card list-card">
+      <view
+        wx:for="{{ todayList }}"
+        wx:key="id"
+        class="txn-item"
+        bindtap="goEdit"
+        data-id="{{ item.id }}"
+      >
+        <view class="txn-item__left">
+          <text class="txn-item__icon">{{ item.categoryIcon }}</text>
+          <view class="txn-item__info">
+            <text class="txn-item__cat">{{ item.categoryName }} · {{ item.subCategoryName }}</text>
+            <text wx:if="{{ item.remark }}" class="txn-item__remark">{{ item.remark }}</text>
+          </view>
+        </view>
+        <text class="txn-item__amount {{ item.type === 'income' ? 'txn-item__amount--income' : '' }}">{{ item.amountSign }}{{ item.amountDisplay }}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 悬浮按钮（滚动时也能快速记账） -->
+<view class="fab" bindtap="goAdd">
+  <text class="fab__icon">＋</text>
+</view>

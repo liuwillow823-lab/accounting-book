@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">新增分类</view>
+    <view class="type-switch__tabs category-type-tabs">
+      <view class="type-switch__tab {{ type === 'expense' ? 'type-switch__tab--active' : '' }}" data-type="expense" bindtap="onSwitchType">支出分类</view>
+      <view class="type-switch__tab {{ type === 'income' ? 'type-switch__tab--active' : '' }}" data-type="income" bindtap="onSwitchType">收入分类</view>
+    </view>
+    <view wx:if="{{ type === 'expense' }}">
+      <view class="input-row">
+        <input class="input-row__input" placeholder="分类名称，例如：宠物" value="{{ categoryName }}" bindinput="onCategoryNameInput" />
+        <input class="input-row__icon" placeholder="图标" maxlength="2" value="{{ categoryIcon }}" bindinput="onCategoryIconInput" />
+      </view>
+      <button class="btn-primary" bindtap="onAddCategory">添加分类</button>
+    </view>
+    <view wx:else>
+      <view class="input-row">
+        <input class="input-row__input" placeholder="收入大类，例如：工资" value="{{ categoryName }}" bindinput="onCategoryNameInput" />
+        <input class="input-row__icon" placeholder="图标" maxlength="2" value="{{ categoryIcon }}" bindinput="onCategoryIconInput" />
+      </view>
+      <button class="btn-primary" bindtap="onAddCategory">添加收入大类</button>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">当前分类</view>
+    <view class="category-list">
+      <view
+        wx:for="{{ categories }}"
+        wx:key="id"
+        class="category-item {{ activeCategoryId === item.id ? 'category-item--active' : '' }}"
+        data-id="{{ item.id }}"
+        bindtap="onSelectCategory"
+      >
+        <text>{{ item.icon }} {{ item.name }}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{ type === 'expense' }}">
+    <view class="section-title">分类明细</view>
+    <view wx:for="{{ categories }}" wx:key="id" class="group-block">
+      <view class="group-block__title">{{ item.icon }} {{ item.name }}</view>
+      <view class="group-block__subs">
+        <text wx:for="{{ item.subCategories }}" wx:key="id" class="chip">{{ item.name }}</text>
+      </view>
+    </view>
+  </view>
+</view>

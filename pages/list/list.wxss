@@ -1,0 +1,162 @@
+.month-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.month-bar__arrow {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  font-size: 48rpx;
+  color: var(--color-primary);
+  font-weight: 300;
+}
+
+.month-bar__arrow--disabled {
+  color: #dcdee0;
+  pointer-events: none;
+}
+
+.month-bar__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  flex: 1;
+  padding: 12rpx 24rpx;
+}
+
+.month-bar__label {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.month-bar__hint {
+  font-size: 20rpx;
+  color: var(--color-text-secondary);
+}
+
+.summary {
+  padding: 20rpx 24rpx 16rpx;
+}
+
+.summary__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  margin-bottom: 14rpx;
+}
+
+.summary__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.summary__amount {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.summary__amount--income { color: var(--color-primary); }
+.summary__amount--expense { color: var(--color-danger); }
+
+.summary__count {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.group {
+  margin-bottom: 16rpx;
+}
+
+.group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12rpx 8rpx;
+}
+
+.group__date {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.group__total {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+}
+
+.group__list {
+  padding: 0 32rpx;
+}
+
+.txn-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid var(--color-border);
+}
+
+.txn-item:last-child {
+  border-bottom: none;
+}
+
+.txn-item__left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.txn-item__icon {
+  font-size: 40rpx;
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  background: var(--color-primary-light);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.txn-item__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.txn-item__cat {
+  font-size: 28rpx;
+}
+
+.txn-item__remark {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  margin-top: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.txn-item__amount {
+  font-size: 32rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
