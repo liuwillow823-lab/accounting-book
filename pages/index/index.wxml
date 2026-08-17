@@ -10,7 +10,7 @@
       <view class="hero__divider"></view>
       <view class="hero__stat">
         <text class="hero__stat-label">支出</text>
-        <text class="hero__stat-amount">{{ todayExpenseDisplay }}</text>
+        <text class="hero__stat-amount hero__stat-amount--expense">{{ todayExpenseDisplay }}</text>
       </view>
     </view>
   </view>

@@ -1,0 +1,128 @@
+.year-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 16rpx;
+}
+
+.year-bar__arrow {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  font-size: 48rpx;
+  color: var(--color-primary);
+  font-weight: 300;
+}
+
+.year-bar__arrow--disabled {
+  color: #dcdee0;
+  pointer-events: none;
+}
+
+.year-bar__center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
+}
+
+.year-bar__label {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.year-bar__hint {
+  font-size: 20rpx;
+  color: var(--color-text-secondary);
+}
+
+.report-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 28rpx 24rpx 32rpx;
+}
+
+.report-title {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.report-table {
+  border: 1rpx solid var(--color-border);
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.report-row {
+  display: flex;
+  align-items: center;
+}
+
+.report-row + .report-row {
+  border-top: 1rpx solid var(--color-border);
+}
+
+.report-cell {
+  flex: 1;
+  padding: 18rpx 10rpx;
+  text-align: right;
+  font-size: 24rpx;
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+.report-cell + .report-cell {
+  border-left: 1rpx solid var(--color-border);
+}
+
+.report-col-month {
+  flex: 0 0 90rpx;
+  text-align: center;
+  font-weight: 600;
+}
+
+.report-col-money {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-head .report-cell {
+  background: #f7f8fa;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.report-cell--income {
+  color: var(--color-primary);
+}
+
+.report-cell--expense {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.report-cell--net {
+  font-weight: 600;
+}
+
+.report-cell--net-positive {
+  color: var(--color-primary);
+}
+
+.report-cell--net-negative {
+  color: var(--color-danger);
+}
+
+.report-tip {
+  margin-top: 20rpx;
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  text-align: center;
+}

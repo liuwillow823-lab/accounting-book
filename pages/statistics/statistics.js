@@ -49,6 +49,9 @@ Page({
     totalCount: 0,
     empty: false,
     trendSubtitle: '',
+    chartTotalLabel: '总支出',
+    chartTotalDisplay: '¥0.00',
+    chartAvgDisplay: '¥0.00',
     linePoints: [],
     lineSegments: [],
     activePointIndex: -1,
@@ -170,6 +173,8 @@ Page({
       ? this.buildExpensePie(list)
       : this.buildPie(list, type)
 
+    const avg = trend.points.length ? Math.round(total / trend.points.length) : 0
+
     this.setData({
       title,
       rangeLabel,
@@ -177,6 +182,9 @@ Page({
       totalCount: list.length,
       empty: list.length === 0,
       trendSubtitle,
+      chartTotalLabel: type === 'income' ? '总收入' : '总支出',
+      chartTotalDisplay: centToDisplay(total),
+      chartAvgDisplay: centToDisplay(avg),
       linePoints: trend.points,
       lineSegments: trend.segments,
       activePointIndex: -1,
@@ -211,23 +219,30 @@ Page({
 
     if (granularity === GRANULARITY.week) {
       const r = getWeekRange(selectedWeek)
-      labels = []
-      values = []
+      const todayStr = today()
+      const days = []
       for (let i = 0; i < 7; i += 1) {
         const d = toDate(r.start)
         d.setDate(d.getDate() + i)
         const date = formatYMD(d)
-        labels.push(String(d.getDate()))
-        values.push(amountByDate[date] || 0)
+        if (date > todayStr) break
+        days.push(date)
       }
+      labels = days.map(d => String(Number(d.slice(8, 10))))
+      values = days.map(d => amountByDate[d] || 0)
     } else if (granularity === GRANULARITY.month) {
       const [year, month] = selectedMonth.split('-').map(Number)
       const daysInMonth = new Date(year, month, 0).getDate()
-      labels = Array.from({ length: daysInMonth }, (_, i) => String(i + 1))
+      const isCurrentMonth = selectedMonth === currentMonth()
+      const maxDay = isCurrentMonth ? Number(today().slice(8, 10)) : daysInMonth
+      labels = Array.from({ length: maxDay }, (_, i) => String(i + 1))
       values = labels.map((_, i) => amountByDate[`${selectedMonth}-${pad(i + 1)}`] || 0)
     } else {
       const year = Number(selectedYear)
-      labels = Array.from({ length: 12 }, (_, i) => `${i + 1}`)
+      const nowYear = Number(today().slice(0, 4))
+      const nowMonth = Number(today().slice(5, 7))
+      const maxMonth = year === nowYear ? nowMonth : 12
+      labels = Array.from({ length: maxMonth }, (_, i) => `${i + 1}`)
       values = labels.map((_, i) => {
         const { first, last } = getMonthRange(year, i + 1)
         return transactionModel.sumAmount(transactionModel.queryByDateRange(first, last, type))
@@ -446,7 +461,7 @@ Page({
       for (let i = 0; i < 4; i += 1) { const y = padT + (chartH / 3) * i; ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke() }
       ctx.setStrokeStyle('#07c160'); ctx.setLineWidth(3); ctx.setLineCap('round'); ctx.setLineJoin('round')
       for (let i = 1; i < points.length; i += 1) { const prev = points[i - 1]; const curr = points[i]; ctx.beginPath(); ctx.moveTo(prev.px, prev.py); ctx.lineTo(curr.px, curr.py); ctx.stroke() }
-      points.forEach((p, index) => { ctx.beginPath(); ctx.setFillStyle('#07c160'); ctx.arc(p.px, p.py, index === this.data.activePointIndex ? 5 : 4, 0, Math.PI * 2); ctx.fill(); ctx.setFillStyle('#969799'); ctx.setFontSize(10); ctx.setTextAlign('center'); ctx.fillText(p.label, p.px, h - 16) })
+      points.forEach((p, index) => { ctx.beginPath(); ctx.setFillStyle('#07c160'); ctx.arc(p.px, p.py, index === this.data.activePointIndex ? 5 : 4, 0, Math.PI * 2); ctx.fill(); ctx.setFillStyle('#969799'); ctx.setFontSize(10); ctx.setTextAlign('center'); if (this.data.granularity !== GRANULARITY.month || index % 6 === 0) ctx.fillText(p.label, p.px, h - 16) })
       if (this.data.activePointIndex >= 0) { const p = points[this.data.activePointIndex]; if (p) { ctx.setFillStyle('#323233'); ctx.setFontSize(11); ctx.fillText(p.display, p.px, Math.max(14, p.py - 10)) } }
       ctx.draw()
     }).exec()
@@ -466,31 +481,7 @@ Page({
       ctx.clearRect(0, 0, w, h)
       this.data.pieItems.forEach(item => {
         const angle = (item.deg / 180) * Math.PI
-        const mid = start + angle / 2
         ctx.beginPath(); ctx.setFillStyle(item.color); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, start, start + angle); ctx.closePath(); ctx.fill()
-        if (item.deg >= 14) {
-          const labelRadius = radius * 1.2
-          const labelX = cx + Math.cos(mid) * labelRadius
-          const labelY = cy + Math.sin(mid) * labelRadius
-          const lineEndX = cx + Math.cos(mid) * (radius * 1.05)
-          const lineEndY = cy + Math.sin(mid) * (radius * 1.05)
-          const alignLeft = labelX < cx
-          const textX = labelX + (alignLeft ? -6 : 6)
-          ctx.setStrokeStyle('rgba(0,0,0,0.12)')
-          ctx.setLineWidth(1)
-          ctx.beginPath()
-          ctx.moveTo(lineEndX, lineEndY)
-          ctx.lineTo(labelX, labelY)
-          ctx.stroke()
-          ctx.setFillStyle('#323233')
-          ctx.setFontSize(10)
-          ctx.setTextAlign(alignLeft ? 'right' : 'left')
-          const nameText = item.name.length > 4 ? `${item.name.slice(0, 4)}…` : item.name
-          ctx.fillText(`${nameText} ${item.percent}%`, textX, labelY)
-          ctx.setFillStyle('#969799')
-          ctx.setFontSize(9)
-          ctx.fillText(item.amountDisplay, textX, labelY + 14)
-        }
         start += angle
       })
       ctx.beginPath(); ctx.setFillStyle('#fff'); ctx.arc(cx, cy, inner, 0, Math.PI * 2); ctx.fill()

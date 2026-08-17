@@ -47,8 +47,9 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "libVersion": "3.3.4",
-  "appid": "wxc438165618e94f80",
+  "appid": "wxeff80fc844087751",
   "projectname": "Accounting-Book",
   "condition": {},
   "editorSetting": {

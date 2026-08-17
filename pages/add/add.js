@@ -87,19 +87,6 @@ Page({
     this.validateForm()
   },
 
-  onTypeChange(e) {
-    const type = e.currentTarget.dataset.type
-    const categories = categoryModel.getCategoryTree(type)
-    const first = categories[0]
-    const sub = first && first.subCategories[0]
-    this.setData({
-      type,
-      categoryId: first ? first.id : '',
-      subCategoryId: sub ? sub.id : ''
-    })
-    this.validateForm()
-  },
-
   onCategoryChange(e) {
     const { categoryId, subCategoryId } = e.detail
     this.setData({ categoryId, subCategoryId })

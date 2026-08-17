@@ -1,0 +1,9 @@
+{
+  "name": "syncPull",
+  "version": "1.0.0",
+  "description": "拉取云端账单到小程序",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,16 +1,17 @@
 .hero {
   text-align: center;
-  padding: 36rpx 32rpx 40rpx;
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
-  color: #fff;
-  box-shadow: 0 8rpx 32rpx rgba(7, 193, 96, 0.35);
+  padding: 22rpx 32rpx 26rpx;
+  background: linear-gradient(180deg, rgba(7, 193, 96, 0.08) 0%, rgba(7, 193, 96, 0.02) 100%);
+  border: 1rpx solid rgba(7, 193, 96, 0.08);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
 }
 
 .hero__label {
   display: block;
-  font-size: 26rpx;
-  opacity: 0.85;
-  margin-bottom: 18rpx;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 12rpx;
 }
 
 .hero__stats {
@@ -28,25 +29,29 @@
 }
 
 .hero__stat-label {
-  font-size: 24rpx;
-  opacity: 0.8;
-  margin-bottom: 10rpx;
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 6rpx;
 }
 
 .hero__stat-amount {
-  font-size: 56rpx;
+  font-size: 44rpx;
   font-weight: 700;
   letter-spacing: -1rpx;
 }
 
 .hero__stat-amount--income {
-  color: #fff;
+  color: var(--color-primary);
+}
+
+.hero__stat-amount--expense {
+  color: var(--color-danger);
 }
 
 .hero__divider {
   width: 1rpx;
   align-self: stretch;
-  background: rgba(255, 255, 255, 0.35);
+  background: var(--color-border);
 }
 
 .btn-add {

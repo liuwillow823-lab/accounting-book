@@ -7,6 +7,18 @@ function generateId(prefix) {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 }
 
+let onChangeCallback = null
+
+function setOnChange(fn) {
+  onChangeCallback = fn
+}
+
+function notifyChange() {
+  if (typeof onChangeCallback === 'function') {
+    onChangeCallback()
+  }
+}
+
 function inferTypeFromCategory(categoryId) {
   if (categoryModel.findCategory(categoryId, 'income')) return 'income'
   return 'expense'
@@ -21,8 +33,14 @@ function normalizeTransaction(item) {
   }
 }
 
+function getAllRaw() {
+  return storage.get(STORAGE_KEYS.TRANSACTIONS, [])
+}
+
 function getAll() {
-  return storage.get(STORAGE_KEYS.TRANSACTIONS, []).map(normalizeTransaction)
+  return getAllRaw()
+    .filter(t => !t.deleted)
+    .map(normalizeTransaction)
 }
 
 function saveAll(transactions) {
@@ -55,18 +73,21 @@ function add({ amount, date, categoryId, subCategoryId, remark = '', type = 'exp
     categoryIcon: cat.icon,
     remark: remark.trim(),
     createdAt: now,
-    updatedAt: now
+    updatedAt: now,
+    deleted: false,
+    syncStatus: 'pending'
   }
 
-  const list = getAll()
+  const list = getAllRaw()
   list.unshift(transaction)
   saveAll(list)
+  notifyChange()
   return transaction
 }
 
 /** 更新账单 */
 function update(id, patch) {
-  const list = getAll()
+  const list = getAllRaw()
   const index = list.findIndex(t => t.id === id)
   if (index === -1) return null
 
@@ -87,17 +108,30 @@ function update(id, patch) {
     subCategoryName: type === 'income' ? '' : (sub ? sub.name : item.subCategoryName),
     categoryIcon: cat ? cat.icon : item.categoryIcon,
     remark: patch.remark !== undefined ? patch.remark.trim() : item.remark,
-    updatedAt: Date.now()
+    deleted: false,
+    updatedAt: Date.now(),
+    syncStatus: 'pending'
   }
 
   saveAll(list)
+  notifyChange()
   return list[index]
 }
 
-/** 删除账单 */
+/** 删除账单（软删除，保留记录以支持云端多端同步删除） */
 function remove(id) {
-  const list = getAll().filter(t => t.id !== id)
+  const list = getAllRaw()
+  const index = list.findIndex(t => t.id === id)
+  if (index === -1) return true
+
+  list[index] = {
+    ...list[index],
+    deleted: true,
+    updatedAt: Date.now(),
+    syncStatus: 'pending'
+  }
   saveAll(list)
+  notifyChange()
   return true
 }
 
@@ -145,5 +179,7 @@ module.exports = {
   groupByDate,
   sumAmount,
   sumByType,
-  normalizeType
+  normalizeType,
+  setOnChange,
+  getAllRaw
 }

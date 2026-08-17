@@ -43,8 +43,17 @@
   </view>
 
   <view class="card stats-chart-card">
-    <view class="section-title">走势图</view>
-    <text class="text-secondary stat-subtitle">{{ trendSubtitle }}</text>
+    <view class="chart-metrics">
+      <view class="chart-metric">
+        <text class="chart-metric__label">{{ chartTotalLabel }}</text>
+        <text class="chart-metric__value">{{ chartTotalDisplay }}</text>
+      </view>
+      <view class="chart-metric-divider"></view>
+      <view class="chart-metric">
+        <text class="chart-metric__label">平均值</text>
+        <text class="chart-metric__value">{{ chartAvgDisplay }}</text>
+      </view>
+    </view>
     <view wx:if="{{ activePointIndex >= 0 }}" class="line-chart-tipbar">
       <text>{{ activePointLabel }}</text>
       <text>{{ activePointValue }}</text>
@@ -53,8 +62,6 @@
   </view>
 
   <view class="card stats-pie-card">
-    <view class="section-title">分类占比</view>
-    <text class="text-secondary stat-subtitle">{{ pieLevel === 'subCategory' ? pieParentCategoryName + ' · 小类占比' : pieSubtitle }}</text>
     <view wx:if="{{ pieLevel === 'subCategory' }}" class="pie-breadcrumb">
       <text class="pie-breadcrumb__back" bindtap="onPieBack">‹ 返回大类</text>
       <text class="pie-breadcrumb__title">{{ pieParentCategoryName }}</text>

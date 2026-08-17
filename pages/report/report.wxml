@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 年份选择 -->
+  <view class="year-bar card">
+    <view class="year-bar__arrow {{ canGoPrev ? '' : 'year-bar__arrow--disabled' }}" bindtap="onPrevYear">‹</view>
+
+    <picker mode="date" fields="year" value="{{ selectedYear }}-01-01" start="{{ pickerStart }}-01-01" end="{{ pickerEnd }}-01-01" bindchange="onYearPick">
+      <view class="year-bar__center">
+        <text class="year-bar__label">{{ selectedYear }}年</text>
+        <text class="year-bar__hint">▼</text>
+      </view>
+    </picker>
+
+    <view class="year-bar__arrow {{ canGoNext ? '' : 'year-bar__arrow--disabled' }}" bindtap="onNextYear">›</view>
+  </view>
+
+  <!-- 空状态：从未记账 -->
+  <view wx:if="{{ !hasAnyTransaction }}" class="empty-state">
+    <text class="empty-state__icon">📊</text>
+    <text class="empty-state__text">还没有任何账单</text>
+  </view>
+
+  <!-- 年度收支月报表 -->
+  <view wx:else class="report-card">
+    <view class="report-title">{{ selectedYear }}年收支月报表</view>
+    <view class="report-table">
+      <view class="report-row report-head">
+        <view class="report-cell report-col-month">月份</view>
+        <view class="report-cell report-col-money">收入</view>
+        <view class="report-cell report-col-money">支出</view>
+        <view class="report-cell report-col-money">汇总</view>
+      </view>
+
+      <view wx:for="{{ monthRows }}" wx:key="month" class="report-row">
+        <view class="report-cell report-col-month">{{ item.month }}</view>
+        <view class="report-cell report-col-money report-cell--income">{{ item.incomeDisplay }}</view>
+        <view class="report-cell report-col-money report-cell--expense">{{ item.expenseDisplay }}</view>
+        <view class="report-cell report-col-money report-cell--net {{ item.netPositive ? 'report-cell--net-positive' : 'report-cell--net-negative' }}">{{ item.netDisplay }}</view>
+      </view>
+
+      <view class="report-row report-head">
+        <view class="report-cell report-col-month">合计</view>
+        <view class="report-cell report-col-money report-cell--income">{{ incomeTotalDisplay }}</view>
+        <view class="report-cell report-col-money report-cell--expense">{{ expenseTotalDisplay }}</view>
+        <view class="report-cell report-col-money report-cell--net {{ netPositive ? 'report-cell--net-positive' : 'report-cell--net-negative' }}">{{ netTotalDisplay }}</view>
+      </view>
+    </view>
+    <view class="report-tip">收入为绿色、支出为红色，汇总 = 收入 − 支出</view>
+  </view>
+</view>

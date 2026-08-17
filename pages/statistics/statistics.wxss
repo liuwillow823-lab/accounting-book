@@ -26,6 +26,11 @@
 .stat-subtitle { display: block; margin-top: -4rpx; margin-bottom: 22rpx; }
 .empty-inline { padding: 48rpx 0; text-align: center; color: var(--color-text-secondary); }
 .line-chart-tipbar { display: flex; justify-content: space-between; margin-bottom: 16rpx; padding: 14rpx 20rpx; border-radius: 16rpx; background: #f7f8fa; color: var(--color-text-secondary); font-size: 24rpx; }
+.chart-metrics { display: flex; align-items: center; justify-content: center; gap: 36rpx; margin-bottom: 20rpx; padding: 16rpx 24rpx; border-radius: 16rpx; background: #f7f8fa; }
+.chart-metric { display: flex; align-items: baseline; gap: 10rpx; }
+.chart-metric__label { font-size: 22rpx; color: var(--color-text-secondary); }
+.chart-metric__value { font-size: 28rpx; font-weight: 600; color: var(--color-text); }
+.chart-metric-divider { width: 1rpx; height: 32rpx; background: var(--color-border); }
 .chart-canvas { width: 100%; height: 420rpx; }
 .pie-ring-wrap { position: relative; width: 100%; height: 460rpx; }
 .pie-canvas { width: 100%; height: 460rpx; }

@@ -103,6 +103,12 @@
   font-weight: 600;
 }
 
+.amount-section__symbol {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
 .actions {
   margin-top: 48rpx;
   padding: 0 16rpx;
