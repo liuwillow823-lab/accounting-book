@@ -48,7 +48,7 @@ Page({
       if (!storage.get(PROFILE_KEY, null)) {
         storage.set(PROFILE_KEY, { nickName: generateDefaultNickname(), avatarUrl: '' })
       }
-      refreshLoginState()
+      this.refreshLoginState()
       wx.showToast({ title: '登录成功', icon: 'success' })
       // 登录后立即同步云端（老数据自动迁移）
       const app = getApp()

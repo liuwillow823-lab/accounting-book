@@ -57,6 +57,9 @@ page {
 }
 
 .btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-primary) !important;
   color: #fff !important;
   border: none !important;
@@ -64,7 +67,12 @@ page {
   font-size: 32rpx !important;
   font-weight: 600 !important;
   height: 96rpx !important;
-  line-height: 96rpx !important;
+  line-height: 1;
+  padding: 0;
+}
+
+.btn-primary::after {
+  border: none;
 }
 
 .btn-primary[disabled] {
