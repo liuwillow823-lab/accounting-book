@@ -377,13 +377,17 @@ Page({
     const radius = Math.min(w, h) * 0.35
     const labelRadius = radius * 1.32
     const minGap = 34
+    // 标签卡片 max-width 为 240rpx(≈0.32w)，钳制锚点避免卡片超出容器
+    const labelMaxWidth = Math.round(w * 0.32)
+    const minAnchorX = Math.min(labelMaxWidth, cx)
+    const maxAnchorX = Math.max(w - labelMaxWidth, cx)
 
     const raw = []
     let start = -Math.PI / 2
     items.forEach(item => {
       const angle = (item.deg / 180) * Math.PI
       const mid = start + angle / 2
-      const x = cx + Math.cos(mid) * labelRadius
+      const x = Math.min(Math.max(cx + Math.cos(mid) * labelRadius, minAnchorX), maxAnchorX)
       const y = cy + Math.sin(mid) * labelRadius
       raw.push({
         id: item.id,
@@ -408,8 +412,8 @@ Page({
         if (list[i].y - list[i - 1].y < minGap) list[i].y = list[i - 1].y + minGap
       }
       if (!list.length) return
-      const minY = 18
-      const maxY = h - 18
+      const minY = 30
+      const maxY = h - 30
       if (list[0].y < minY) {
         const shift = minY - list[0].y
         list.forEach(i => { i.y += shift })

@@ -28,10 +28,10 @@
         "selectedIconPath": "assets/icons/list-active.png"
       },
       {
-        "pagePath": "pages/report/report",
-        "text": "账单",
-        "iconPath": "assets/icons/bill.png",
-        "selectedIconPath": "assets/icons/bill-active.png"
+        "pagePath": "pages/statistics/statistics",
+        "text": "图表",
+        "iconPath": "assets/icons/chart.png",
+        "selectedIconPath": "assets/icons/chart-active.png"
       },
       {
         "pagePath": "pages/index/index",
@@ -40,10 +40,10 @@
         "selectedIconPath": "assets/icons/add-active.png"
       },
       {
-        "pagePath": "pages/statistics/statistics",
-        "text": "图表",
-        "iconPath": "assets/icons/chart.png",
-        "selectedIconPath": "assets/icons/chart-active.png"
+        "pagePath": "pages/report/report",
+        "text": "账单",
+        "iconPath": "assets/icons/bill.png",
+        "selectedIconPath": "assets/icons/bill-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
